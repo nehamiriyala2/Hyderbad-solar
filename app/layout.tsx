@@ -1,13 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Plus_Jakarta_Sans, Noto_Sans_Telugu } from "next/font/google";
+// Fonts are self-hosted (bundled from npm) so the build never has to download from Google.
+import "@fontsource-variable/bricolage-grotesque";
+import "@fontsource-variable/plus-jakarta-sans";
+import "@fontsource-variable/noto-sans-telugu";
 import "./globals.css";
 import { LangProvider } from "@/lib/i18n";
 import { Header, Footer, MobileBar, WhatsAppPill } from "@/components/Chrome";
 import { SITE, AREAS } from "@/lib/site";
 
-const display = Bricolage_Grotesque({ subsets: ["latin"], weight: ["600", "700", "800"], variable: "--font-display", display: "swap" });
-const body = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-body", display: "swap" });
-const telugu = Noto_Sans_Telugu({ subsets: ["telugu"], weight: ["400", "600", "700", "800"], variable: "--font-telugu", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -40,7 +40,7 @@ const localBusiness = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${telugu.variable}`}>
+    <html lang="en">
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusiness) }} />
         <LangProvider>

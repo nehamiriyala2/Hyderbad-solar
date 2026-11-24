@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --font-display: "Bricolage Grotesque Variable";
+  --font-body: "Plus Jakarta Sans Variable";
+  --font-telugu: "Noto Sans Telugu Variable";
+}
+
 @layer base {
   html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
   body { @apply bg-cream font-body text-ink antialiased; font-size: 17px; line-height: 1.6; }
