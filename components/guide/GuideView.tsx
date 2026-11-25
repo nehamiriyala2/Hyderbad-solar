@@ -47,25 +47,25 @@ const FLOW: { icon: IconName; label: L; img: string; alt: string }[] = [
 ];
 
 // [VERIFY] typical appliance wattages (nameplate ranges vary by model)
-const LOADS: { icon: IconName; name: L; w: string }[] = [
-  { icon: "Lightbulb", name: { en: "LED bulb", te: "LED బల్బ్" }, w: "9 W" },
-  { icon: "Fan", name: { en: "Ceiling fan (BLDC 30 W)", te: "సీలింగ్ ఫ్యాన్ (BLDC 30 W)" }, w: "70 W" },
-  { icon: "Tv", name: { en: "TV", te: "టీవీ" }, w: "100 W" },
-  { icon: "Monitor", name: { en: "Laptop", te: "ల్యాప్‌టాప్" }, w: "60 W" },
-  { icon: "Refrigerator", name: { en: "Fridge", te: "ఫ్రిజ్" }, w: "150–200 W" },
-  { icon: "Zap", name: { en: "Mixer / grinder", te: "మిక్సర్ / గ్రైండర్" }, w: "500 W" },
-  { icon: "AirVent", name: { en: "1.5-ton inverter AC", te: "1.5 టన్ ఇన్వర్టర్ ఏసీ" }, w: "1,000–1,500 W" },
-  { icon: "Droplets", name: { en: "Water pump (0.5–1 HP)", te: "నీటి పంపు (0.5–1 HP)" }, w: "400–750 W" },
+const LOADS: { icon: IconName; name: L; w: string; img: string }[] = [
+  { icon: "Lightbulb", name: { en: "LED bulb", te: "LED బల్బ్" }, w: "9 W", img: "/guide/app-bulb.webp" },
+  { icon: "Fan", name: { en: "Ceiling fan (BLDC 30 W)", te: "సీలింగ్ ఫ్యాన్ (BLDC 30 W)" }, w: "70 W", img: "/guide/app-fan.webp" },
+  { icon: "Tv", name: { en: "TV", te: "టీవీ" }, w: "100 W", img: "/guide/app-tv.webp" },
+  { icon: "Monitor", name: { en: "Laptop", te: "ల్యాప్‌టాప్" }, w: "60 W", img: "/guide/app-laptop.webp" },
+  { icon: "Refrigerator", name: { en: "Fridge", te: "ఫ్రిజ్" }, w: "150–200 W", img: "/guide/app-fridge.webp" },
+  { icon: "Zap", name: { en: "Mixer / grinder", te: "మిక్సర్ / గ్రైండర్" }, w: "500 W", img: "/guide/app-mixer.webp" },
+  { icon: "AirVent", name: { en: "1.5-ton inverter AC", te: "1.5 టన్ ఇన్వర్టర్ ఏసీ" }, w: "1,000–1,500 W", img: "/guide/app-ac.webp" },
+  { icon: "Droplets", name: { en: "Water pump (0.5–1 HP)", te: "నీటి పంపు (0.5–1 HP)" }, w: "400–750 W", img: "/guide/app-pump.webp" },
 ];
 
-const CHECKLIST: { icon: IconName; title: L; text: L }[] = [
-  { icon: "Ruler", title: { en: "Roof space", te: "పైకప్పు స్థలం" }, text: { en: "About 100 sq ft of open roof per kW.", te: "kW కి సుమారు 100 చ.అ. ఖాళీ పైకప్పు." } },
-  { icon: "Sun", title: { en: "Shadow-free 9 AM–4 PM", te: "ఉదయం 9–సాయంత్రం 4 నీడ లేదు" }, text: { en: "No tank, tree or tower shading the panels.", te: "ట్యాంక్, చెట్టు, టవర్ నీడ పడకూడదు." } },
-  { icon: "PlugZap", title: { en: "Sanctioned load", te: "శాంక్షన్డ్ లోడ్" }, text: { en: "Printed on your bill; solar size usually stays within it.", te: "బిల్‌పై ఉంటుంది; సోలార్ సైజ్ సాధారణంగా దానిలోపే." } },
-  { icon: "Gauge", title: { en: "Net metering", te: "నెట్ మీటరింగ్" }, text: { en: "Apply to TGSPDCL so extra units earn credit.", te: "అదనపు యూనిట్లకు జమ కోసం TGSPDCL కి దరఖాస్తు." } },
-  { icon: "BadgeCheck", title: { en: "Approved vendor", te: "ఆమోదిత వెండర్" }, text: { en: "Registered on the PM Surya Ghar portal for subsidy.", te: "సబ్సిడీ కోసం పీఎం సూర్య ఘర్ పోర్టల్‌లో రిజిస్టర్డ్." } },
-  { icon: "FileCheck", title: { en: "Written warranties", te: "రాతపూర్వక వారంటీలు" }, text: { en: "Panels, inverter and workmanship, all on paper.", te: "ప్యానెల్స్, ఇన్వర్టర్, పనితనం — అన్నీ రాతపూర్వకంగా." } },
-  { icon: "HeartHandshake", title: { en: "After-sales service", te: "అమ్మకం తర్వాత సేవ" }, text: { en: "A named contact and response time for issues.", te: "సమస్యలకు ఒక సంప్రదింపు వ్యక్తి, స్పందన సమయం." } },
+const CHECKLIST: { img: string; pos?: string; title: L; text: L }[] = [
+  { img: "/guide/on-grid.webp", pos: "object-[center_30%]", title: { en: "Roof space", te: "పైకప్పు స్థలం" }, text: { en: "About 100 sq ft of open roof per kW.", te: "kW కి సుమారు 100 చ.అ. ఖాళీ పైకప్పు." } },
+  { img: "/guide/check-sun.jpg", title: { en: "Shadow-free 9 AM–4 PM", te: "ఉదయం 9–సాయంత్రం 4 నీడ లేదు" }, text: { en: "No tank, tree or tower shading the panels.", te: "ట్యాంక్, చెట్టు, టవర్ నీడ పడకూడదు." } },
+  { img: "/guide/panel-closeup.webp", title: { en: "Sanctioned load", te: "శాంక్షన్డ్ లోడ్" }, text: { en: "Printed on your bill; solar size usually stays within it.", te: "బిల్‌పై ఉంటుంది; సోలార్ సైజ్ సాధారణంగా దానిలోపే." } },
+  { img: "/guide/net-meter.webp", pos: "object-[center_35%]", title: { en: "Net metering", te: "నెట్ మీటరింగ్" }, text: { en: "Apply to TGSPDCL so extra units earn credit.", te: "అదనపు యూనిట్లకు జమ కోసం TGSPDCL కి దరఖాస్తు." } },
+  { img: "/guide/check-vendor.jpg", pos: "object-[center_20%]", title: { en: "Approved vendor", te: "ఆమోదిత వెండర్" }, text: { en: "Registered on the PM Surya Ghar portal for subsidy.", te: "సబ్సిడీ కోసం పీఎం సూర్య ఘర్ పోర్టల్‌లో రిజిస్టర్డ్." } },
+  { img: "/guide/check-warranty.jpg", title: { en: "Written warranties", te: "రాతపూర్వక వారంటీలు" }, text: { en: "Panels, inverter and workmanship, all on paper.", te: "ప్యానెల్స్, ఇన్వర్టర్, పనితనం — అన్నీ రాతపూర్వకంగా." } },
+  { img: "/guide/evening-home.webp", pos: "object-[center_25%]", title: { en: "After-sales service", te: "అమ్మకం తర్వాత సేవ" }, text: { en: "A named contact and response time for issues.", te: "సమస్యలకు ఒక సంప్రదింపు వ్యక్తి, స్పందన సమయం." } },
 ];
 
 /* ───────── View ───────── */
@@ -104,13 +104,15 @@ export function GuideView({ photos }: { photos: GuidePhotos }) {
         <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-ink/10 shadow-lift lg:grid-cols-4">
           {[
             // [VERIFY] all four figures
-            { icon: "Zap" as IconName, k: { en: "Units per kW per day", te: "kW కి రోజుకు యూనిట్లు" }, v: <>~<CountUp value={4} /></> },
-            { icon: "Ruler" as IconName, k: { en: "Roof per kW", te: "kW కి పైకప్పు" }, v: <>~<CountUp value={100} /> sq ft</> },
-            { icon: "ShieldCheck" as IconName, k: { en: "Panel life", te: "ప్యానెల్ జీవితం" }, v: <><CountUp value={25} />+ <T en="yrs" te="ఏళ్లు" /></> },
-            { icon: "BadgeCheck" as IconName, k: { en: "Home subsidy up to", te: "ఇంటి సబ్సిడీ" }, v: <>₹<CountUp value={78000} /></> },
+            { img: "/guide/fact-units.webp", k: { en: "Units per kW per day", te: "kW కి రోజుకు యూనిట్లు" }, v: <>~<CountUp value={4} /></> },
+            { img: "/guide/fact-roof.webp", k: { en: "Roof per kW", te: "kW కి పైకప్పు" }, v: <>~<CountUp value={100} /> sq ft</> },
+            { img: "/guide/fact-life.webp", k: { en: "Panel life", te: "ప్యానెల్ జీవితం" }, v: <><CountUp value={25} />+ <T en="yrs" te="ఏళ్లు" /></> },
+            { img: "/guide/stat-subsidy.webp", k: { en: "Home subsidy up to", te: "ఇంటి సబ్సిడీ" }, v: <>₹<CountUp value={78000} /></> },
           ].map((f, i) => (
             <div key={i} className="flex items-center gap-3 bg-white p-4 sm:gap-4 sm:p-6">
-              <ColorIcon name={f.icon} i={i} />
+              <span className="relative h-14 w-16 shrink-0 sm:h-16 sm:w-20">
+                <Image src={f.img} alt="" fill sizes="80px" className="object-contain mix-blend-multiply" />
+              </span>
               <div>
                 <dt className="text-sm font-semibold text-ink/60"><T {...f.k} /></dt>
                 <dd className="mt-0.5 font-display text-2xl font-extrabold text-teal sm:text-3xl">{f.v}</dd>
@@ -226,7 +228,9 @@ export function GuideView({ photos }: { photos: GuidePhotos }) {
             {LOADS.map((l, i) => (
               <Reveal key={i} delay={(i % 4) * 60}>
                 <div className="h-full rounded-2xl bg-white p-4 shadow-soft">
-                  <ColorIcon name={l.icon} i={i} />
+                  <span className="relative block h-16 w-16 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-ink/10">
+                    <Image src={l.img} alt="" fill sizes="64px" className="object-contain p-1" />
+                  </span>
                   <p className="mt-3 font-semibold leading-snug"><T {...l.name} /></p>
                   <p className="mt-0.5 font-display text-lg font-extrabold text-teal">{l.w}</p>
                 </div>
@@ -259,26 +263,31 @@ export function GuideView({ photos }: { photos: GuidePhotos }) {
           <Reveal>
             <GuidePhoto slot="skyline" src={photos.skyline} className="mb-6 aspect-[21/9] rounded-2xl" sizes="(min-width: 1024px) 760px, 100vw" />
           </Reveal>
-          <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
               // [VERIFY] all figures in this block
-              { icon: "Zap" as IconName, k: { en: "Units from 1 kW / month", te: "1 kW నుంచి నెలకు యూనిట్లు" }, v: <>100–<CountUp value={140} /></> },
-              { icon: "Ruler" as IconName, k: { en: "Roof per kW", te: "kW కి పైకప్పు" }, v: <>~<CountUp value={100} /> sq ft</> },
-              { icon: "ShieldCheck" as IconName, k: { en: "Panel life", te: "ప్యానెల్ జీవితం" }, v: <><CountUp value={25} />+ <T en="years" te="ఏళ్లు" /></> },
-              { icon: "Sun" as IconName, k: { en: "Daily sunshine", te: "రోజువారీ ఎండ" }, v: <>5–<CountUp value={5.5} format={(n) => n.toFixed(1)} /> <span className="text-base">kWh/m²</span></> },
-              { icon: "BadgeCheck" as IconName, k: { en: "Home subsidy up to", te: "ఇంటి సబ్సిడీ" }, v: <>₹<CountUp value={78000} /></>, href: "/schemes/pm-surya-ghar" },
-              { icon: "Gauge" as IconName, k: { en: "Net metering by", te: "నెట్ మీటరింగ్" }, v: <>TGSPDCL</>, href: "/schemes/net-metering" },
+              { icon: "Zap" as IconName, img: "/guide/stat-units.webp", k: { en: "Units from 1 kW / month", te: "1 kW నుంచి నెలకు యూనిట్లు" }, v: <>100–<CountUp value={140} /></> },
+              { img: "/guide/stat-roof.webp", icon: "Ruler" as IconName, k: { en: "Roof per kW", te: "kW కి పైకప్పు" }, v: <>~<CountUp value={100} /> sq ft</> },
+              { img: "/guide/stat-life.webp", icon: "ShieldCheck" as IconName, k: { en: "Panel life", te: "ప్యానెల్ జీవితం" }, v: <><CountUp value={25} />+ <T en="years" te="ఏళ్లు" /></> },
+              { icon: "Sun" as IconName, img: "/guide/stat-sun.webp", k: { en: "Daily sunshine", te: "రోజువారీ ఎండ" }, v: <>5–<CountUp value={5.5} format={(n) => n.toFixed(1)} /> <span className="text-base">kWh/m²</span></> },
+              { img: "/guide/stat-subsidy.webp", icon: "BadgeCheck" as IconName, k: { en: "Home subsidy up to", te: "ఇంటి సబ్సిడీ" }, v: <>₹<CountUp value={78000} /></>, href: "/schemes/pm-surya-ghar" },
+              { icon: "Gauge" as IconName, img: "/guide/stat-netmeter.webp", k: { en: "Net metering by", te: "నెట్ మీటరింగ్" }, v: <>TGSPDCL</>, href: "/schemes/net-metering" },
             ].map((s, i) => (
               <Reveal key={i} delay={(i % 3) * 80}>
-                <div className="h-full rounded-2xl bg-white/10 p-5">
+                <div className="flex h-full min-h-[170px] overflow-hidden rounded-2xl bg-white text-ink shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-lift">
+                  <div className="relative w-[44%] shrink-0">
+                    <Image src={s.img} alt="" fill sizes="(min-width: 1024px) 200px, 40vw" className="object-cover" />
+                  </div>
+                  <div className="flex flex-1 flex-col justify-center p-4 sm:p-5">
                   <ColorIcon name={s.icon} i={i} size="sm" />
-                  <p className="mt-3 text-sm font-semibold text-white/75"><T {...s.k} /></p>
-                  <p className="mt-1 font-display text-3xl font-extrabold">{s.v}</p>
+                  <p className="mt-2.5 text-sm font-semibold text-ink/65"><T {...s.k} /></p>
+                  <p className="mt-0.5 font-display text-2xl font-extrabold text-teal xl:text-3xl">{s.v}</p>
                   {s.href && (
-                    <Link href={s.href} className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-sun-soft hover:underline">
+                    <Link href={s.href} className="mt-1.5 inline-flex items-center gap-1 text-sm font-bold text-sun-deep hover:underline">
                       <T en="How it works" te="ఎలా పని చేస్తుంది" /> <Icon name="ArrowRight" size={14} />
                     </Link>
                   )}
+                  </div>
                 </div>
               </Reveal>
             ))}
@@ -297,8 +306,10 @@ export function GuideView({ photos }: { photos: GuidePhotos }) {
             <ol className="grid gap-3">
               {CHECKLIST.map((c, i) => (
                 <Reveal key={i} delay={i * 40}>
-                  <li className="flex items-start gap-4 rounded-2xl bg-white p-4 shadow-soft">
-                    <ColorIcon name={c.icon} i={i + 2} size="sm" />
+                  <li className="flex items-center gap-4 rounded-2xl bg-white p-3.5 shadow-soft sm:p-4">
+                    <span className="relative h-16 w-24 shrink-0 overflow-hidden rounded-xl bg-pearl ring-1 ring-ink/10 sm:h-[68px] sm:w-28">
+                      <Image src={c.img} alt="" fill sizes="112px" className={cx("object-cover", c.pos)} />
+                    </span>
                     <span>
                       <span className="block font-bold"><span className="mr-1 font-display text-sun-deep">{i + 1}.</span> <T {...c.title} /></span>
                       <span className="block text-[15px] text-ink/65"><T {...c.text} /></span>

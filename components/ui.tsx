@@ -52,7 +52,7 @@ export function Heading({
     <div className={cx("mb-8 sm:mb-10", center && "text-center mx-auto max-w-3xl")}>
       {kicker && (
         <p className={cx("mb-3 inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-bold", light ? "bg-white/10 text-sun-soft" : "bg-sun/15 text-sun-deep")}>
-          <Icon name="Sun" size={16} /> <T {...kicker} />
+          <T {...kicker} />
         </p>
       )}
       <H className={cx("font-display font-extrabold tracking-tight", as === "h1" ? "text-4xl sm:text-5xl lg:text-6xl leading-[1.05]" : "text-3xl sm:text-4xl leading-tight")}>
@@ -104,7 +104,7 @@ export function IconBubble({ name, tone = "sun", size = "md" }: { name: IconName
 }
 
 /** One idea per card: icon + title + max-2-line text */
-export function IdeaCard({ icon, title, text, href, tone = "white", iconTone = "sun", children, image }: { icon: IconName; title: L; text?: L; href?: string; tone?: "white" | "cream" | "teal" | "pearl" | "leaf"; iconTone?: "sun" | "teal" | "leaf" | "white"; children?: React.ReactNode; image?: { src: string; alt: string } }) {
+export function IdeaCard({ icon, title, text, href, tone = "white", iconTone = "sun", children, image }: { icon?: IconName; title: L; text?: L; href?: string; tone?: "white" | "cream" | "teal" | "pearl" | "leaf"; iconTone?: "sun" | "teal" | "leaf" | "white"; children?: React.ReactNode; image?: { src: string; alt: string } }) {
   return (
     <Card href={href} tone={tone} className={cx("h-full", image && "group overflow-hidden !p-0")}>
       {image && (
@@ -113,8 +113,8 @@ export function IdeaCard({ icon, title, text, href, tone = "white", iconTone = "
         </div>
       )}
       <div className={cx(image && "p-6")}>
-      <IconBubble name={icon} tone={tone === "teal" ? "white" : iconTone} />
-      <h3 className="mt-4 font-display text-xl font-bold leading-snug">
+      {icon && <IconBubble name={icon} tone={tone === "teal" ? "white" : iconTone} />}
+      <h3 className={cx("font-display text-xl font-bold leading-snug", icon && "mt-4")}>
         <T {...title} />
       </h3>
       {text && (
@@ -287,41 +287,55 @@ export function Chips({ items, light, icon = "MapPin" }: { items: string[]; ligh
   );
 }
 
-export function Steps({ items, light }: { items: { icon: IconName; title: L; text?: L }[]; light?: boolean }) {
+const PASTELS = ["from-orange-50 to-amber-100", "from-sky-50 to-blue-100", "from-emerald-50 to-green-100", "from-rose-50 to-pink-100", "from-violet-50 to-indigo-100", "from-cyan-50 to-teal-100", "from-red-50 to-rose-100", "from-lime-50 to-emerald-100"];
+
+export function Steps({ items, light }: { items: { icon: IconName; title: L; text?: L; image?: string }[]; light?: boolean }) {
+  const illustrated = items.some((s) => s.image);
   return (
     <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-      {items.map((s, i) => (
-        <li
-          key={i}
-          className={cx(
-            "group relative overflow-hidden rounded-3xl p-5 pt-6 transition duration-300 hover:-translate-y-1",
-            light ? "bg-white/10 hover:bg-white/15" : "bg-white shadow-soft hover:shadow-lift"
-          )}
-        >
-          {/* coloured accent strip */}
-          <span aria-hidden className={cx("absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r", GRADS[i % GRADS.length])} />
-          {/* big gradient step number */}
-          <span
-            aria-hidden
+      {items.map((s, i) => {
+        const g = GRADS[i % GRADS.length];
+        if (illustrated)
+          return (
+            <li key={i} className={cx("group relative flex flex-col overflow-hidden rounded-3xl bg-gradient-to-br text-ink shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-lift", PASTELS[i % PASTELS.length])}>
+              <span aria-hidden className={cx("absolute inset-x-0 top-0 z-20 h-1.5 bg-gradient-to-r", g)} />
+              <span className={cx("absolute right-3.5 top-4 z-20 rounded-full bg-gradient-to-br px-3 py-0.5 font-display text-lg font-extrabold text-white shadow-md", g)}>
+                <span className="sr-only">Step </span>{String(i + 1).padStart(2, "0")}
+              </span>
+              {s.image ? (
+                <div className="relative aspect-[16/10] w-full overflow-hidden">
+                  <Image src={s.image} alt="" fill sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition duration-500 group-hover:scale-105" />
+                </div>
+              ) : (
+                <div className="px-6 pt-7">
+                  <ColorIcon name={s.icon} i={i} size="lg" />
+                </div>
+              )}
+              <div className="p-5 sm:p-6">
+                <h3 className="font-display text-xl font-bold leading-snug"><T {...s.title} /></h3>
+                {s.text && <p className="mt-1.5 text-[16px] text-ink/70"><T {...s.text} /></p>}
+              </div>
+            </li>
+          );
+        return (
+          <li
+            key={i}
             className={cx(
-              "absolute right-4 top-3 bg-gradient-to-br bg-clip-text font-display text-5xl font-extrabold leading-none text-transparent drop-shadow-sm",
-              GRADS[i % GRADS.length]
+              "group relative overflow-hidden rounded-3xl p-5 pt-6 transition duration-300 hover:-translate-y-1",
+              light ? "bg-white/10 hover:bg-white/15" : "bg-white shadow-soft hover:shadow-lift"
             )}
           >
-            {String(i + 1).padStart(2, "0")}
-          </span>
-          <span className="sr-only">Step {i + 1}: </span>
-          <ColorIcon name={s.icon} i={i} />
-          <h3 className="mt-4 font-display text-lg font-bold">
-            <T {...s.title} />
-          </h3>
-          {s.text && (
-            <p className={cx("mt-1 text-[15px]", light ? "text-white/80" : "text-ink/70")}>
-              <T {...s.text} />
-            </p>
-          )}
-        </li>
-      ))}
+            <span aria-hidden className={cx("absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r", g)} />
+            <span aria-hidden className={cx("absolute right-4 top-3 bg-gradient-to-br bg-clip-text font-display text-5xl font-extrabold leading-none text-transparent drop-shadow-sm", g)}>
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <span className="sr-only">Step {i + 1}: </span>
+            <ColorIcon name={s.icon} i={i} />
+            <h3 className="mt-4 font-display text-lg font-bold"><T {...s.title} /></h3>
+            {s.text && <p className={cx("mt-1 text-[15px]", light ? "text-white/80" : "text-ink/70")}><T {...s.text} /></p>}
+          </li>
+        );
+      })}
     </ol>
   );
 }

@@ -126,10 +126,7 @@ function ForCard({ href, img, icon, title, text, i }: { href: string; img: { src
         <Image src={img.src} alt={img.alt} fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition duration-500 group-hover:scale-105" />
         <div aria-hidden className={`absolute inset-x-0 bottom-0 h-1.5 bg-gradient-to-r ${GRADS[i % GRADS.length]}`} />
       </div>
-      <div className="relative flex flex-1 flex-col px-6 pb-6 pt-11">
-        <span className="absolute -top-8 left-6 rounded-[1.1rem] bg-white p-1 shadow-soft">
-          <ColorIcon name={icon} i={i} size="lg" />
-        </span>
+      <div className="relative flex flex-1 flex-col px-6 pb-6 pt-6">
         <h3 className="font-display text-xl font-bold leading-snug"><T {...title} /></h3>
         <p className="mt-1.5 text-ink/70"><T {...text} /></p>
         <span className="mt-auto inline-flex items-center gap-1 pt-4 font-bold text-sun-deep">
@@ -153,7 +150,7 @@ export function ForHubView({ heroImage }: { heroImage?: string | null }) {
         <div className="mx-auto flex min-h-[380px] max-w-[1400px] items-center px-4 py-14 sm:px-6 lg:min-h-[440px] lg:px-8">
           <div className="max-w-xl">
             <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-sm font-bold text-sun-soft backdrop-blur">
-              <Icon name="Sun" size={16} /> <T en="Pick your place" te="మీ స్థలం ఎంచుకోండి" />
+              <T en="Pick your place" te="మీ స్థలం ఎంచుకోండి" />
             </p>
             <h1 className="font-display text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl"><T en="Solar for you" te="మీ కోసం సోలార్" /></h1>
             <p className="mt-4 text-lg text-white/85 sm:text-xl"><T en="Every place is different. Find the page that matches yours." te="ప్రతి స్థలం వేరు. మీకు సరిపోయే పేజీ చూడండి." /></p>

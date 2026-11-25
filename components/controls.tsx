@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { T, type L } from "@/lib/i18n";
 import { Icon, type IconName } from "./Icon";
@@ -64,7 +65,7 @@ export function CountUp({ value, format = (n) => Math.round(n).toLocaleString("e
   return <span ref={ref}>{format(shown)}</span>;
 }
 
-export type Opt<V extends string> = { value: V; label: L; icon?: IconName };
+export type Opt<V extends string> = { value: V; label: L; icon?: IconName; image?: string };
 
 /** Big-tap segmented toggle */
 export function Segmented<V extends string>({ value, onChange, options, label, light, size = "md", oneLine, colorIcons }: { value: V; onChange: (v: V) => void; options: Opt<V>[]; label: L; light?: boolean; size?: "md" | "sm"; oneLine?: boolean; colorIcons?: boolean | number }) {
@@ -88,7 +89,15 @@ export function Segmented<V extends string>({ value, onChange, options, label, l
                 active ? "bg-teal text-white shadow-soft" : light ? "bg-white/10 text-white hover:bg-white/20" : "bg-pearl text-ink hover:bg-white"
               )}
             >
-              {o.icon && (colorIcons ? (
+              {o.image ? (
+                <Image
+                  src={o.image}
+                  alt=""
+                  width={36}
+                  height={36}
+                  className={cx("h-8 w-8 shrink-0 rounded-lg object-contain", active && "bg-white/95 p-0.5")}
+                />
+              ) : o.icon && (colorIcons ? (
                 <span className={cx("inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br text-white shadow-sm", GRADS[(options.indexOf(o) + (typeof colorIcons === "number" ? colorIcons : 0)) % GRADS.length])}>
                   <Icon name={o.icon} size={16} strokeWidth={2.4} />
                 </span>

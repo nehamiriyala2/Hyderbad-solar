@@ -8,7 +8,7 @@ import Link from "next/link";
 import { HeroPlanCard } from "../HeroPlanCard";
 import { FlowStrip } from "../FlowStrip";
 import { Icon, type IconName } from "../Icon";
-import { Band, Btn, CTABand, Card, Chips, FAQ, Heading, IconBubble, IdeaCard, Steps, VerifyNote, cx } from "../ui";
+import { Band, Btn, CTABand, Card, Chips, FAQ, Heading, IdeaCard, Steps, VerifyNote, cx } from "../ui";
 import type { L } from "@/lib/i18n";
 
 const WHO: { icon: IconName; title: L; text: L; href: string; big?: boolean; tone?: "teal" | "white" | "cream" | "leaf"; image?: string }[] = [
@@ -77,9 +77,9 @@ export function HomeView() {
       <Band tone="cream" id="start-here">
         <Heading hideAlt kicker={{ en: "Zero knowledge needed", te: "ముందు తెలిసి ఉండక్కర్లేదు" }} title={{ en: "Never heard of solar? Start here", te: "సోలార్ గురించి తెలియదా? ఇక్కడ మొదలుపెట్టండి" }} />
         <div className="grid gap-5 md:grid-cols-3">
-          <IdeaCard image={{ src: "/home/what-is-solar.webp", alt: "Solar panels on a tiled roof in bright sunshine" }} icon="Sun" title={{ en: "What is solar?", te: "సోలార్ అంటే ఏమిటి?" }} text={{ en: "Panels on your roof turn sunlight into electricity.", te: "మీ పైకప్పుపై ప్యానెల్స్ ఎండను కరెంట్‌గా మారుస్తాయి." }} href="/solar-guide" />
-          <IdeaCard image={{ src: "/home/cut-my-bill.webp", alt: "Electricity bill showing a lower amount after solar, with a solar home behind" }} icon="IndianRupee" iconTone="leaf" title={{ en: "How does it cut my bill?", te: "నా బిల్ ఎలా తగ్గుతుంది?" }} text={{ en: "You use your own units first. Extra units are credited.", te: "ముందు మీ యూనిట్లు వాడతారు. అదనపువి జమ అవుతాయి." }} href="/solar-guide#how-it-works" />
-          <IdeaCard image={{ src: "/home/right-for-me.webp", alt: "Couple looking at the solar panels on their home, with a checklist: sunny roof, bill above ₹1,500, roof space, lower cost" }} icon="CircleHelp" iconTone="teal" title={{ en: "Is it right for me?", te: "నాకు సరిపోతుందా?" }} text={{ en: "Sunny roof + bill above ₹1,500? Usually yes.", te: "ఎండ పడే పైకప్పు + ₹1,500 పైన బిల్? సాధారణంగా అవును." }} href="/solar-guide#before-you-buy" />
+          <IdeaCard image={{ src: "/home/what-is-solar.webp", alt: "Solar panels on a tiled roof in bright sunshine" }} title={{ en: "What is solar?", te: "సోలార్ అంటే ఏమిటి?" }} text={{ en: "Panels on your roof turn sunlight into electricity.", te: "మీ పైకప్పుపై ప్యానెల్స్ ఎండను కరెంట్‌గా మారుస్తాయి." }} href="/solar-guide" />
+          <IdeaCard image={{ src: "/home/cut-my-bill.webp", alt: "Electricity bill showing a lower amount after solar, with a solar home behind" }} title={{ en: "How does it cut my bill?", te: "నా బిల్ ఎలా తగ్గుతుంది?" }} text={{ en: "You use your own units first. Extra units are credited.", te: "ముందు మీ యూనిట్లు వాడతారు. అదనపువి జమ అవుతాయి." }} href="/solar-guide#how-it-works" />
+          <IdeaCard image={{ src: "/home/right-for-me.webp", alt: "Couple looking at the solar panels on their home, with a checklist: sunny roof, bill above ₹1,500, roof space, lower cost" }} title={{ en: "Is it right for me?", te: "నాకు సరిపోతుందా?" }} text={{ en: "Sunny roof + bill above ₹1,500? Usually yes.", te: "ఎండ పడే పైకప్పు + ₹1,500 పైన బిల్? సాధారణంగా అవును." }} href="/solar-guide#before-you-buy" />
         </div>
       </Band>
 
@@ -94,9 +94,8 @@ export function HomeView() {
                   <Image src={w.image} alt="Modern home with solar panels on the roof" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover transition duration-500 group-hover:scale-105" />
                 </div>
               )}
-              <div className={cx(w.image && "flex flex-col p-6 lg:p-8")}>
-              <IconBubble name={w.icon} tone={w.tone === "teal" ? "white" : "sun"} size={w.big ? "lg" : "md"} />
-              <h3 className={cx("mt-4 font-display font-bold leading-snug", w.big ? "text-3xl" : "text-xl")}><T {...w.title} /></h3>
+              <div className={cx(w.image ? "flex flex-col p-6 lg:p-8" : "flex flex-1 flex-col")}>
+              <h3 className={cx("font-display font-bold leading-snug", w.big ? "text-3xl" : "text-xl")}><T {...w.title} /></h3>
               <p className={cx("mt-1.5", w.tone === "teal" ? "text-white/85 text-lg" : "text-ink/70")}><T {...w.text} /></p>
               <span className={cx("mt-auto inline-flex items-center gap-1 pt-4 font-bold", w.tone === "teal" ? "text-sun-soft" : "text-sun-deep")}>
                 <T en="See plan" te="ప్లాన్ చూడండి" /> <Icon name="ArrowRight" size={18} />
@@ -141,10 +140,7 @@ export function HomeView() {
               <div className="relative aspect-[2/1] overflow-hidden">
                 <Image src={s.image} alt={s.alt} fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition duration-500 group-hover:scale-105" />
               </div>
-              <div className="relative flex flex-1 flex-col px-6 pb-6 pt-10">
-                <span className="absolute -top-8 left-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-teal shadow-soft">
-                  <Icon name={s.icon} size={26} />
-                </span>
+              <div className="flex flex-1 flex-col p-6">
                 <h3 className="font-display text-xl font-bold leading-snug"><T {...s.title} /></h3>
                 <p className="mt-1.5 text-ink/70"><T {...s.text} /></p>
                 <span className="mt-auto inline-flex items-center gap-1 pt-4 font-bold text-sun-deep">
@@ -166,11 +162,11 @@ export function HomeView() {
         <Steps
           light
           items={[
-            { icon: "BookOpen", title: { en: "Learn", te: "తెలుసుకోండి" }, text: { en: "Understand solar and your options.", te: "సోలార్, మీ ఎంపికలు అర్థం చేసుకోండి." } },
-            { icon: "ClipboardCheck", title: { en: "Pick system & scheme", te: "సిస్టమ్ & స్కీమ్ ఎంచుకోండి" }, text: { en: "Right size, right subsidy.", te: "సరైన సైజ్, సరైన సబ్సిడీ." } },
-            { icon: "FileText", title: { en: "Paperwork", te: "పేపర్ వర్క్" }, text: { en: "We handle portal and DISCOM forms.", te: "పోర్టల్, డిస్కమ్ ఫారాలు మేమే చూస్తాం." } },
-            { icon: "Wrench", title: { en: "Install", te: "ఇన్‌స్టాల్" }, text: { en: "Neat, safe fitting on your roof.", te: "మీ పైకప్పుపై చక్కగా, సురక్షితంగా." } },
-            { icon: "Gauge", title: { en: "Net meter & savings", te: "నెట్ మీటర్ & ఆదా" }, text: { en: "Meter fixed. Savings start.", te: "మీటర్ పెట్టాక ఆదా మొదలు." } },
+            { icon: "BookOpen", image: "/home/step-learn.webp", title: { en: "Learn", te: "తెలుసుకోండి" }, text: { en: "Understand solar and your options.", te: "సోలార్, మీ ఎంపికలు అర్థం చేసుకోండి." } },
+            { icon: "ClipboardCheck", image: "/home/step-pick.webp", title: { en: "Pick system & scheme", te: "సిస్టమ్ & స్కీమ్ ఎంచుకోండి" }, text: { en: "Right size, right subsidy.", te: "సరైన సైజ్, సరైన సబ్సిడీ." } },
+            { icon: "FileText", image: "/home/step-paperwork.webp", title: { en: "Paperwork", te: "పేపర్ వర్క్" }, text: { en: "We handle portal and DISCOM forms.", te: "పోర్టల్, డిస్కమ్ ఫారాలు మేమే చూస్తాం." } },
+            { icon: "Wrench", image: "/home/step-install.webp", title: { en: "Install", te: "ఇన్‌స్టాల్" }, text: { en: "Neat, safe fitting on your roof.", te: "మీ పైకప్పుపై చక్కగా, సురక్షితంగా." } },
+            { icon: "Gauge", image: "/home/step-netmeter.webp", title: { en: "Net meter & savings", te: "నెట్ మీటర్ & ఆదా" }, text: { en: "Meter fixed. Savings start.", te: "మీటర్ పెట్టాక ఆదా మొదలు." } },
           ]}
         />
       </Band>

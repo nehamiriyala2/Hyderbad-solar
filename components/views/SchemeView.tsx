@@ -98,10 +98,7 @@ function SchemeCard({ slug, i, img }: { slug: string; i: number; img?: string | 
           </>
         )}
       </div>
-      <div className="relative flex flex-1 flex-col px-6 pb-6 pt-11">
-        <span className="absolute -top-8 left-6 rounded-[1.1rem] bg-white p-1 shadow-soft">
-          <ColorIcon name={s.icon} i={i} size="lg" />
-        </span>
+      <div className="flex flex-1 flex-col p-6">
         <h3 className="font-display text-xl font-bold leading-snug"><T {...s.name} /></h3>
         <p className="mt-1.5 text-ink/70"><T {...s.short} /></p>
         <span className="mt-auto inline-flex items-center gap-1 pt-4 font-bold text-sun-deep">

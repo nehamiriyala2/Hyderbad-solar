@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ASSUME, computePlan, emi, inr, lakhs, pmSuryaGharSubsidy, pricePerKw, societySubsidy, type Place, type SystemType, type Use } from "@/lib/solar";
@@ -13,23 +14,33 @@ import { Icon } from "./Icon";
 
 function SavingsChart({ yearly, netCost }: { yearly: { year: number; cumulative: number }[]; netCost: number }) {
   const max = Math.max(...yearly.map((y) => y.cumulative), netCost) || 1;
-  const W = 600, H = 220, pad = 28;
-  const bw = (W - pad * 2) / yearly.length;
-  const yOf = (v: number) => H - pad - (v / max) * (H - pad * 2);
+  const W = 600, H = 250, padX = 28, padTop = 44, padBottom = 28;
+  const bw = (W - padX * 2) / yearly.length;
+  const yOf = (v: number) => H - padBottom - (v / max) * (H - padTop - padBottom);
   const payIdx = yearly.findIndex((y) => y.cumulative >= netCost);
+  const lineY = yOf(netCost);
+  const label = `Cost after subsidy ${lakhs(netCost)}`;
+  const tagW = label.length * 7.2 + 24, tagH = 26;
+  // Badge sits well above the dashed line; never clipped at the top.
+  const tagY = Math.max(4, lineY - tagH - 14);
   return (
     <figure>
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label={`Total savings grow to ${inr(yearly[yearly.length - 1].cumulative)} over 25 years. System cost after subsidy is ${inr(netCost)}.`}>
         {yearly.map((y, i) => (
-          <rect key={y.year} x={pad + i * bw + 2} y={yOf(y.cumulative)} width={bw - 4} height={H - pad - yOf(y.cumulative)} rx="3" fill={i >= payIdx && payIdx >= 0 ? "#2E9E5B" : "#FFB27A"}>
+          <rect key={y.year} x={padX + i * bw + 2} y={yOf(y.cumulative)} width={bw - 4} height={H - padBottom - yOf(y.cumulative)} rx="3" fill={i >= payIdx && payIdx >= 0 ? "#2E9E5B" : "#FFB27A"}>
             <title>{`Year ${y.year}: ${inr(y.cumulative)}`}</title>
           </rect>
         ))}
-        <line x1={pad} x2={W - pad} y1={yOf(netCost)} y2={yOf(netCost)} stroke="#0B4F5C" strokeWidth="2" strokeDasharray="6 5" />
-        <text x={pad + 4} y={yOf(netCost) - 6} fontSize="12" fill="#0B4F5C" fontWeight="700">Cost after subsidy {lakhs(netCost)}</text>
-        <line x1={pad} x2={W - pad} y1={H - pad} y2={H - pad} stroke="#1D1D1F" strokeOpacity="0.2" />
+        <line x1={padX} x2={W - padX} y1={lineY} y2={lineY} stroke="#0B4F5C" strokeWidth="2" strokeDasharray="6 5" />
+        <line x1={padX + 18} x2={padX + 18} y1={tagY + tagH} y2={lineY} stroke="#0B4F5C" strokeWidth="2" />
+        <circle cx={padX + 18} cy={lineY} r="4" fill="#0B4F5C" stroke="#fff" strokeWidth="2" />
+        <rect x={padX} y={tagY} width={tagW} height={tagH} rx={tagH / 2} fill="#0B4F5C" />
+        <text x={padX + 12} y={tagY + 17.5} fontSize="13" fill="#ffffff" fontWeight="700">
+          {label}
+        </text>
+        <line x1={padX} x2={W - padX} y1={H - padBottom} y2={H - padBottom} stroke="#1D1D1F" strokeOpacity="0.2" />
         {[1, 5, 10, 15, 20, 25].map((yr) => (
-          <text key={yr} x={pad + (yr - 0.5) * bw} y={H - 8} fontSize="11" textAnchor="middle" fill="#1D1D1F" fillOpacity="0.6">
+          <text key={yr} x={padX + (yr - 0.5) * bw} y={H - 8} fontSize="11" textAnchor="middle" fill="#1D1D1F" fillOpacity="0.6">
             {yr}
           </text>
         ))}
@@ -40,6 +51,24 @@ function SavingsChart({ yearly, netCost }: { yearly: { year: number; cumulative:
         <span><T en="Bars = total saved by that year" te="ఆ సంవత్సరానికి మొత్తం ఆదా" /></span>
       </figcaption>
     </figure>
+  );
+}
+
+/* ───────── Result card: round photo icon + big number ───────── */
+
+function PhotoStat({ img, ring, label, children, flag }: { img: string; ring: string; label: { en: string; te: string }; children: React.ReactNode; flag?: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-3.5 rounded-3xl border border-ink/5 bg-white p-3.5 shadow-[0_6px_24px_-12px_rgba(11,79,92,0.25)] transition hover:-translate-y-0.5">
+      <span className={cx("flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gradient-to-br p-1.5", ring)}>
+        <Image src={img} alt="" width={96} height={96} className="h-full w-full rounded-full object-cover" />
+      </span>
+      <div className="min-w-0">
+        <p className="font-display text-2xl font-extrabold leading-tight text-ink">
+          {children}
+        </p>
+        <p className="text-sm font-semibold text-ink/60"><T {...label} />{flag}</p>
+      </div>
+    </div>
   );
 }
 
@@ -85,13 +114,13 @@ export function SavingsCalculator() {
       </div>
 
       <div className="rounded-[2rem] bg-white p-6 shadow-soft lg:col-span-3" aria-live="polite">
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-          <Stat icon="Sun" tone="teal" label={{ en: "System size", te: "సిస్టమ్ సైజ్" }}><CountUp value={plan.kw} /> kW</Stat>
-          <Stat icon="Wallet" label={{ en: "Cost after subsidy", te: "సబ్సిడీ తర్వాత ఖర్చు" }} flag={<Flag />}>{lakhs(plan.netCost)}</Stat>
-          <Stat icon="IndianRupee" tone="leaf" label={{ en: "Monthly saving", te: "నెల ఆదా" }}>~<CountUp value={plan.monthlySaving} format={inr} /></Stat>
-          <Stat icon="CalendarClock" tone="sun" label={{ en: "Payback", te: "పెట్టుబడి తిరిగి" }}>~{plan.paybackYears} <T en="yrs" te="ఏళ్లు" /></Stat>
-          <Stat icon="TrendingUp" tone="leaf" label={{ en: "25-year net saving", te: "25 ఏళ్ల నికర ఆదా" }}>{lakhs(plan.savings25)}</Stat>
-          <Stat icon="TreePine" label={{ en: "CO₂ saved / year", te: "ఏటా CO₂ తగ్గింపు" }}>{plan.co2TonnesYear} t</Stat>
+        <div className="grid grid-cols-1 gap-3 min-[420px]:grid-cols-2 xl:grid-cols-3">
+          <PhotoStat img="/guide/stat-life.webp" ring="from-amber-50 to-orange-100" label={{ en: "System size", te: "సిస్టమ్ సైజ్" }}><CountUp value={plan.kw} /> kW</PhotoStat>
+          <PhotoStat img="/guide/stat-subsidy.webp" ring="from-orange-50 to-amber-100" label={{ en: "Cost after subsidy", te: "సబ్సిడీ తర్వాత ఖర్చు" }}>{lakhs(plan.netCost)}</PhotoStat>
+          <PhotoStat img="/home/benefit-lower-bill.webp" ring="from-emerald-50 to-green-100" label={{ en: "Monthly saving", te: "నెల ఆదా" }}>~<CountUp value={plan.monthlySaving} format={inr} /></PhotoStat>
+          <PhotoStat img="/home/benefit-subsidy.webp" ring="from-violet-50 to-purple-100" label={{ en: "Payback", te: "పెట్టుబడి తిరిగి" }}>~{plan.paybackYears} <T en="yrs" te="ఏళ్లు" /></PhotoStat>
+          <PhotoStat img="/home/benefit-panel-life.webp" ring="from-sky-50 to-blue-100" label={{ en: "25-year net saving", te: "25 ఏళ్ల నికర ఆదా" }}>{lakhs(plan.savings25)}</PhotoStat>
+          <PhotoStat img="/home/benefit-clean-air.webp" ring="from-teal-50 to-emerald-100" label={{ en: "CO₂ saved / year", te: "ఏటా CO₂ తగ్గింపు" }}>{plan.co2TonnesYear} t</PhotoStat>
         </div>
         <p className="mt-3 rounded-2xl bg-leaf-soft p-3 text-[15px]">
           <Icon name="Leaf" size={18} className="mr-1 inline text-leaf-deep" />
@@ -109,10 +138,10 @@ export function SavingsCalculator() {
       <div className="rounded-[2rem] bg-pearl p-6 lg:col-span-5">
         <h3 className="font-display text-lg font-bold"><T en="How we calculated this (assumptions)" te="మేము ఎలా లెక్కించాం (అంచనాలు)" /></h3>
         <ul className="mt-3 grid gap-2 text-[15px] text-ink/75 sm:grid-cols-2">
-          <li>• <T en={`Home bill ≈ ₹${ASSUME.tariffHome}/unit, shop bill ≈ ₹${ASSUME.tariffShop}/unit on average`} te={`ఇంటి బిల్ ≈ యూనిట్‌కు ₹${ASSUME.tariffHome}, షాప్ బిల్ ≈ యూనిట్‌కు ₹${ASSUME.tariffShop} సగటున`} /> <Flag /></li>
+          <li>• <T en={`Home bill ≈ ₹${ASSUME.tariffHome}/unit, shop bill ≈ ₹${ASSUME.tariffShop}/unit on average`} te={`ఇంటి బిల్ ≈ యూనిట్‌కు ₹${ASSUME.tariffHome}, షాప్ బిల్ ≈ యూనిట్‌కు ₹${ASSUME.tariffShop} సగటున`} /></li>
           <li>• <T en={`1 kW makes ~${ASSUME.unitsPerKwMonth} units a month in Hyderabad (~4 a day)`} te={`హైదరాబాద్‌లో 1 kW నెలకు ~${ASSUME.unitsPerKwMonth} యూనిట్లు (రోజుకు ~4)`} /></li>
-          <li>• <T en={`Price: ~${inr(ASSUME.pricePerKwOnGrid)}/kW on-grid, ~${inr(ASSUME.pricePerKwHybrid)}/kW hybrid with battery`} te={`ధర: ఆన్-గ్రిడ్ kW కు ~${inr(ASSUME.pricePerKwOnGrid)}, బ్యాటరీతో హైబ్రిడ్ kW కు ~${inr(ASSUME.pricePerKwHybrid)}`} /> <Flag /></li>
-          <li>• <T en="Home subsidy: PM Surya Ghar, up to ₹78,000. Shops: no home subsidy." te="ఇంటి సబ్సిడీ: పీఎం సూర్య ఘర్, ₹78,000 వరకు. షాపులకు ఇంటి సబ్సిడీ లేదు." /> <Flag /></li>
+          <li>• <T en={`Price: ~${inr(ASSUME.pricePerKwOnGrid)}/kW on-grid, ~${inr(ASSUME.pricePerKwHybrid)}/kW hybrid with battery`} te={`ధర: ఆన్-గ్రిడ్ kW కు ~${inr(ASSUME.pricePerKwOnGrid)}, బ్యాటరీతో హైబ్రిడ్ kW కు ~${inr(ASSUME.pricePerKwHybrid)}`} /></li>
+          <li>• <T en="Home subsidy: PM Surya Ghar, up to ₹78,000. Shops: no home subsidy." te="ఇంటి సబ్సిడీ: పీఎం సూర్య ఘర్, ₹78,000 వరకు. షాపులకు ఇంటి సబ్సిడీ లేదు." /></li>
           <li>• <T en="About 10% of your bill stays (fixed / minimum charges)" te="బిల్‌లో సుమారు 10% మిగులుతుంది (ఫిక్స్‌డ్ / కనీస చార్జీలు)" /></li>
           <li>• <T en="Panels lose ~0.5% output a year; power price rises ~2% a year (our guess)" te="ప్యానెల్స్ ఏటా ~0.5% తగ్గుతాయి; కరెంట్ ధర ఏటా ~2% పెరుగుతుందని అంచనా" /></li>
         </ul>

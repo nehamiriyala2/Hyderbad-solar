@@ -27,41 +27,38 @@ export function SchemeFinder() {
         <Segmented
           size="sm"
           oneLine
-          colorIcons
           label={{ en: "1. Who are you?", te: "1. మీరు ఎవరు?" }}
           value={who ?? ("" as never)}
           onChange={setWho}
           options={[
-            { value: "home", label: { en: "Home", te: "ఇల్లు" }, icon: "House" },
-            { value: "apartment", label: { en: "Apartment", te: "అపార్ట్‌మెంట్" }, icon: "Building2" },
-            { value: "shop", label: { en: "Shop", te: "షాప్" }, icon: "Store" },
-            { value: "farm", label: { en: "Farm / plot", te: "పొలం / ప్లాట్" }, icon: "Tractor" },
+            { value: "home", label: { en: "Home", te: "ఇల్లు" }, image: "/schemes/finder-home.webp" },
+            { value: "apartment", label: { en: "Apartment", te: "అపార్ట్‌మెంట్" }, image: "/schemes/finder-apartment.webp" },
+            { value: "shop", label: { en: "Shop", te: "షాప్" }, image: "/schemes/finder-shop.webp" },
+            { value: "farm", label: { en: "Farm / plot", te: "పొలం / ప్లాట్" }, image: "/schemes/finder-farm.webp" },
           ]}
         />
         <Segmented
           size="sm"
           oneLine
-          colorIcons={4}
           label={{ en: "2. Where?", te: "2. ఎక్కడ?" }}
           value={place ?? ("" as never)}
           onChange={setPlace}
           options={[
-            { value: "city", label: { en: "City", te: "సిటీ" }, icon: "Building2" },
-            { value: "colony", label: { en: "Colony", te: "కాలనీ" }, icon: "Users" },
-            { value: "outskirts", label: { en: "Outskirts", te: "శివారు" }, icon: "TreePine" },
+            { value: "city", label: { en: "City", te: "సిటీ" }, image: "/schemes/finder-city.webp" },
+            { value: "colony", label: { en: "Colony", te: "కాలనీ" }, image: "/schemes/finder-colony.webp" },
+            { value: "outskirts", label: { en: "Outskirts", te: "శివారు" }, image: "/schemes/finder-outskirts.webp" },
           ]}
         />
         <Segmented
           size="sm"
           oneLine
-          colorIcons={5}
           label={{ en: "3. Units per month?", te: "3. నెలకు యూనిట్లు?" }}
           value={usage ?? ("" as never)}
           onChange={setUsage}
           options={[
-            { value: "low", label: { en: "Under 200", te: "200 లోపు" }, icon: "Lightbulb" },
-            { value: "mid", label: { en: "200–500", te: "200–500" }, icon: "Zap" },
-            { value: "high", label: { en: "500+", te: "500+" }, icon: "BatteryCharging" },
+            { value: "low", label: { en: "Under 200", te: "200 లోపు" }, image: "/schemes/finder-under-200.webp" },
+            { value: "mid", label: { en: "200–500", te: "200–500" }, image: "/schemes/finder-200-500.webp" },
+            { value: "high", label: { en: "500+", te: "500+" }, image: "/schemes/finder-500-plus.webp" },
           ]}
         />
       </div>

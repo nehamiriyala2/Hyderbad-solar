@@ -97,7 +97,7 @@ export function SavingsView() {
         <div className="relative mx-auto grid max-w-[1400px] items-center gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14 lg:px-8 lg:py-16">
           <div>
             <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-sm font-bold text-sun-soft">
-              <Icon name="Sun" size={16} /> <T en="Savings calculator" te="ఆదా కాలిక్యులేటర్" />
+              <T en="Savings calculator" te="ఆదా కాలిక్యులేటర్" />
             </p>
             <h1 className="font-display text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl"><T en="How much will solar save you?" te="సోలార్‌తో మీకు ఎంత ఆదా?" /></h1>
             <p className="mt-4 max-w-md text-lg text-white/85"><T en="Enter your bill, pick a size and see your savings in seconds." te="మీ బిల్ ఇవ్వండి, సైజ్ ఎంచుకోండి, క్షణాల్లో ఆదా చూడండి." /></p>
